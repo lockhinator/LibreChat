@@ -107,6 +107,8 @@ const apiKeysEndpoint = `${BASE_URL}/api/api-keys`;
 
 export const apiKeys = () => apiKeysEndpoint;
 
+export const developerAccess = () => `${BASE_URL}/api/developer-access`;
+
 export const apiKeyById = (id: string) => `${apiKeysEndpoint}/${id}`;
 
 export const conversationsRoot = `${BASE_URL}/api/convos`;

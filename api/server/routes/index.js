@@ -10,6 +10,7 @@ const adminSkills = require('./admin/skills');
 const adminUsers = require('./admin/users');
 const adminAuditLog = require('./admin/audit');
 const endpoints = require('./endpoints');
+const developer = require('./developer');
 const staticRoute = require('./static');
 const messages = require('./messages');
 const memories = require('./memories');
@@ -72,6 +73,7 @@ module.exports = {
   messages,
   memories,
   endpoints,
+  developer,
   assistants,
   categories,
   staticRoute,

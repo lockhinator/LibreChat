@@ -16,6 +16,16 @@ import request from './request';
 import * as s from './schemas';
 import * as r from './roles';
 
+export interface DeveloperAccess {
+  apiKey: string;
+  baseURL: string;
+  model: string;
+}
+
+export function getDeveloperAccess(): Promise<DeveloperAccess> {
+  return request.get(endpoints.developerAccess());
+}
+
 export function revokeUserKey(name: string): Promise<unknown> {
   return request.delete(endpoints.revokeUserKey(name));
 }

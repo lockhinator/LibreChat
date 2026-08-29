@@ -37,6 +37,7 @@ import ProviderKeys from '../SettingsTabs/ProviderKeys';
 import Avatar from '../SettingsTabs/Account/Avatar';
 import About from '../SettingsTabs/About/About';
 import ApiKeys from '../SettingsTabs/ApiKeys';
+import DeveloperAccess from '../SettingsTabs/DeveloperAccess';
 import MemoryToggle from './MemoryToggle';
 import { TTSEndpoints } from '~/common';
 import store from '~/store';
@@ -467,6 +468,14 @@ export const registry: SettingEntry[] = [
     Component: SharedLinks,
   },
   // Data controls · API keys
+  {
+    id: 'developerAccess',
+    tab: DATA,
+    section: 'apiKeys',
+    labelKey: 'com_ui_developer_access',
+    keywords: ['api', 'key', 'opencode', 'developer', 'inference'],
+    Component: DeveloperAccess,
+  },
   {
     id: 'providerApiKeys',
     tab: DATA,

@@ -45,6 +45,7 @@ export {
 } from './api-endpoints';
 export { default as request } from './request';
 export { dataService };
+export type { DeveloperAccess } from './data-service';
 import * as dataService from './data-service';
 /* general helpers */
 export * from './utils';
