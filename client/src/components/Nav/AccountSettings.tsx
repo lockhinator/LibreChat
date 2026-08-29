@@ -14,6 +14,7 @@ import {
   Scale,
   ShieldCheck,
   Users,
+  Palette,
 } from 'lucide-react';
 import { SystemRoles } from 'librechat-data-provider';
 import { ArchivedChatsModal } from '~/components/Nav/SettingsTabs/General/ArchivedChatsModal';
@@ -181,13 +182,22 @@ function AccountSettings({ collapsed = false }: { collapsed?: boolean }) {
           {localize('com_nav_settings')}
         </Menu.MenuItem>
         {user?.role === SystemRoles.ADMIN && (
-          <Menu.MenuItem
-            onClick={() => navigate('/admin/user-approvals')}
-            className="select-item text-sm"
-          >
-            <Users className="icon-md" aria-hidden="true" />
-            User approvals
-          </Menu.MenuItem>
+          <>
+            <Menu.MenuItem
+              onClick={() => navigate('/admin/user-approvals')}
+              className="select-item text-sm"
+            >
+              <Users className="icon-md" aria-hidden="true" />
+              User approvals
+            </Menu.MenuItem>
+            <Menu.MenuItem
+              onClick={() => navigate('/admin/branding')}
+              className="select-item text-sm"
+            >
+              <Palette className="icon-md" aria-hidden="true" />
+              Branding
+            </Menu.MenuItem>
+          </>
         )}
         <DropdownMenuSeparator />
         <Menu.MenuItem onClick={() => logout()} className="select-item text-sm">

@@ -1360,6 +1360,9 @@ export type StartupConfigContext = 'share';
 
 export type TStartupConfig = {
   appTitle: string;
+  appTagline?: string;
+  brandIconUrl?: string;
+  faviconUrl?: string;
   socialLogins?: string[];
   interface?: TInterfaceConfig;
   turnstile?: TTurnstileConfig;

@@ -53,6 +53,8 @@ const loadProjectWorkspace = () =>
 
 const loadUserApprovals = () =>
   import('~/components/Admin/UserApprovals').then((m) => ({ Component: m.default }));
+const loadBrandingSettings = () =>
+  import('~/components/Admin/BrandingSettings').then((m) => ({ Component: m.default }));
 
 const baseEl = document.querySelector('base');
 const baseHref = baseEl?.getAttribute('href') || '/';
@@ -176,6 +178,10 @@ export const router = createBrowserRouter(
             {
               path: 'admin/user-approvals',
               lazy: loadUserApprovals,
+            },
+            {
+              path: 'admin/branding',
+              lazy: loadBrandingSettings,
             },
             {
               path: 'agents',

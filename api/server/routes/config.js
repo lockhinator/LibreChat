@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const {
   isEnabled,
   getBalanceConfig,
@@ -49,6 +51,17 @@ function isBirthday() {
  * See client consumers under `client/src/components/Auth/` and `client/src/routes/Layouts/Startup.tsx`.
  */
 function buildPreLoginPayload() {
+  let branding = {};
+  try {
+    branding = JSON.parse(
+      fs.readFileSync(
+        path.join(process.env.BRANDING_DIR || '/app/client/public/images', 'branding.json'),
+        'utf8',
+      ),
+    );
+  } catch {
+    /* defaults below */
+  }
   const isOpenIdEnabled =
     !!process.env.OPENID_CLIENT_ID &&
     (isEnabled(process.env.OPENID_USE_PKCE) || !!process.env.OPENID_CLIENT_SECRET?.trim()) &&
@@ -65,7 +78,10 @@ function buildPreLoginPayload() {
 
   /** @type {Partial<TStartupConfig>} */
   const payload = {
-    appTitle: process.env.APP_TITLE || 'LibreChat',
+    appTitle: branding.title || process.env.APP_TITLE || 'LibreChat',
+    appTagline: branding.tagline || '',
+    brandIconUrl: branding.iconUrl,
+    faviconUrl: branding.faviconUrl,
     discordLoginEnabled: !!process.env.DISCORD_CLIENT_ID && !!process.env.DISCORD_CLIENT_SECRET,
     facebookLoginEnabled: !!process.env.FACEBOOK_CLIENT_ID && !!process.env.FACEBOOK_CLIENT_SECRET,
     githubLoginEnabled: !!process.env.GITHUB_CLIENT_ID && !!process.env.GITHUB_CLIENT_SECRET,

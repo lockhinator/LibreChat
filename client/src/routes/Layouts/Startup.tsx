@@ -45,7 +45,11 @@ export default function StartupLayout({ isAuthenticated }: { isAuthenticated?: b
 
   useEffect(() => {
     document.title = startupConfig?.appTitle || 'LibreChat';
-  }, [startupConfig?.appTitle]);
+    if (startupConfig?.faviconUrl) {
+      const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+      favicon?.setAttribute('href', startupConfig.faviconUrl);
+    }
+  }, [startupConfig?.appTitle, startupConfig?.faviconUrl]);
 
   useEffect(() => {
     setError(null);
