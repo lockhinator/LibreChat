@@ -32,6 +32,7 @@ import {
   updateConvoInAllQueries,
   removeConvoFromAllQueries,
   findConversationInInfinite,
+  getBrandedDocumentTitle,
 } from '~/utils';
 import {
   startupConfigKey,
@@ -615,7 +616,7 @@ export default function useEventHandlers({
       markTitleGenerationProcessed(conversationId);
 
       if (location.pathname.includes(conversationId)) {
-        document.title = title;
+        document.title = getBrandedDocumentTitle(title);
       }
 
       if (setConversation && !isAddedRequest) {

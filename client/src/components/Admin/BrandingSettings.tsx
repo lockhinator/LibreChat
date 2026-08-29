@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from '@librechat/client';
-import { SystemRoles } from 'librechat-data-provider';
+import { LocalStorageKeys, SystemRoles } from 'librechat-data-provider';
 import { useAuthContext } from '~/hooks/AuthContext';
 
 export default function BrandingSettings() {
@@ -27,8 +27,11 @@ export default function BrandingSettings() {
     body.set('tagline', tagline);
     if (icon) body.set('icon', icon);
     if (favicon) body.set('favicon', favicon);
-    await axios.put('/api/admin/users/branding', body);
-    setMessage('Branding saved. Refresh the page to see all changes.');
+    const { data } = await axios.put('/api/admin/users/branding', body);
+    const savedTitle = data.title || 'LibreChat';
+    localStorage.setItem(LocalStorageKeys.APP_TITLE, savedTitle);
+    document.title = savedTitle;
+    setMessage('Branding saved. The site title is active now; refresh to reload uploaded images.');
   };
 
   if (user?.role !== SystemRoles.ADMIN)
