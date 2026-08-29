@@ -65,6 +65,12 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
       type: String,
       default: SystemRoles.USER,
     },
+    registrationStatus: {
+      type: String,
+      enum: ['active', 'pending', 'rejected'],
+      default: 'active',
+      index: true,
+    },
     googleId: {
       type: String,
     },

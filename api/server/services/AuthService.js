@@ -379,6 +379,7 @@ const registerUser = async (user, additionalData = {}) => {
       name,
       avatar: null,
       role: isFirstRegisteredUser ? SystemRoles.ADMIN : SystemRoles.USER,
+      registrationStatus: isFirstRegisteredUser ? 'active' : 'pending',
       password: bcrypt.hashSync(password, salt),
       ...trustedAdditionalData,
     };
@@ -398,7 +399,12 @@ const registerUser = async (user, additionalData = {}) => {
       await updateUser(newUserId, { emailVerified: true });
     }
 
-    return { status: 200, message: genericVerificationMessage };
+    return {
+      status: 200,
+      message: isFirstRegisteredUser
+        ? genericVerificationMessage
+        : 'Registration received. An administrator must approve your account before you can sign in.',
+    };
   } catch (err) {
     logger.error('[registerUser] Error in registering user:', err);
     if (newUserId) {

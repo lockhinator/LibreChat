@@ -36,6 +36,13 @@ async function passportLogin(req, email, password, done) {
       return done(null, false, { message: 'Email does not exist.' });
     }
 
+    if (user.registrationStatus === 'pending') {
+      return done(null, false, { message: 'Your account is awaiting administrator approval.' });
+    }
+    if (user.registrationStatus === 'rejected') {
+      return done(null, false, { message: 'Your registration request was not approved.' });
+    }
+
     const isMatch = await comparePassword(user, password, { compare: bcrypt.compare });
     if (!isMatch) {
       logError('Passport Local Strategy - Password does not match', { isMatch });

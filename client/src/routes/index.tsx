@@ -51,6 +51,9 @@ const loadProjectWorkspace = () =>
     Component: m.ProjectWorkspace,
   }));
 
+const loadUserApprovals = () =>
+  import('~/components/Admin/UserApprovals').then((m) => ({ Component: m.default }));
+
 const baseEl = document.querySelector('base');
 const baseHref = baseEl?.getAttribute('href') || '/';
 
@@ -169,6 +172,10 @@ export const router = createBrowserRouter(
             {
               path: 'projects/:projectId',
               lazy: loadProjectWorkspace,
+            },
+            {
+              path: 'admin/user-approvals',
+              lazy: loadUserApprovals,
             },
             {
               path: 'agents',
