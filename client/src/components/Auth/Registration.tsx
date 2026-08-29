@@ -25,8 +25,9 @@ const Registration: React.FC = () => {
   const password = watch('password');
 
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [countdown, setCountdown] = useState<number>(3);
+  const [countdown, setCountdown] = useState<number>(5);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const location = useLocation();
@@ -48,14 +49,18 @@ const Registration: React.FC = () => {
     onMutate: () => {
       setIsSubmitting(true);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       setIsSubmitting(false);
-      setCountdown(3);
+      setSuccessMessage(
+        response.message ||
+          'Registration received. An administrator must approve your account before you can sign in.',
+      );
+      setCountdown(5);
       const timer = setInterval(() => {
         setCountdown((prevCountdown) => {
           if (prevCountdown <= 1) {
             clearInterval(timer);
-            navigate('/c/new', { replace: true });
+            navigate('/login', { replace: true });
             return 0;
           } else {
             return prevCountdown - 1;
@@ -136,13 +141,8 @@ const Registration: React.FC = () => {
           className="rounded-md border border-green-500 bg-green-500/10 px-3 py-2 text-sm text-gray-600 dark:text-gray-200"
           role="alert"
         >
-          {localize(
-            startupConfig?.emailEnabled
-              ? 'com_auth_registration_success_generic'
-              : 'com_auth_registration_success_insecure',
-          ) +
-            ' ' +
-            localize('com_auth_email_verification_redirecting', { 0: countdown.toString() })}
+          <div className="font-medium">{successMessage}</div>
+          <div className="mt-1 text-xs">Redirecting to sign in in {countdown} seconds.</div>
         </div>
       )}
       {!startupConfigError && !isFetching && (
