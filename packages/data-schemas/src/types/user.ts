@@ -21,6 +21,8 @@ export interface IUser extends Document {
   provider: string;
   role?: string;
   registrationStatus?: 'active' | 'pending' | 'rejected';
+  registrationReviewedAt?: Date;
+  registrationReviewedBy?: string;
   googleId?: string;
   facebookId?: string;
   openidId?: string;

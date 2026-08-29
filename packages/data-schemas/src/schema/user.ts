@@ -71,6 +71,8 @@ const userSchema: Schema<IUser> = new Schema<IUser>(
       default: 'active',
       index: true,
     },
+    registrationReviewedAt: Date,
+    registrationReviewedBy: String,
     googleId: {
       type: String,
     },

@@ -40,12 +40,35 @@ router.get('/pending', requireReadUsers, async (req, res) => {
   });
 });
 
+router.get('/registration-history', requireReadUsers, async (req, res) => {
+  const users = await db.findUsers(
+    { registrationReviewedAt: { $exists: true } },
+    '_id name username email provider createdAt registrationStatus registrationReviewedAt registrationReviewedBy',
+    { sort: { registrationReviewedAt: -1 } },
+  );
+  res.json({
+    users: users.map((user) => ({
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+      registrationStatus: user.registrationStatus,
+      registrationReviewedAt: user.registrationReviewedAt,
+      registrationReviewedBy: user.registrationReviewedBy,
+    })),
+  });
+});
+
 router.patch('/:id/registration-status', requireReadUsers, async (req, res) => {
   const { status } = req.body ?? {};
   if (!['active', 'rejected'].includes(status)) {
     return res.status(400).json({ error: 'Status must be active or rejected' });
   }
-  const user = await db.updateUser(req.params.id, { registrationStatus: status });
+  const user = await db.updateUser(req.params.id, {
+    registrationStatus: status,
+    registrationReviewedAt: new Date(),
+    registrationReviewedBy: req.user?.email ?? req.user?.id ?? 'administrator',
+  });
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }
